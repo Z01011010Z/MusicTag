@@ -1,5 +1,5 @@
-# MusicTag
-MusicTag is a music player that takes a different aproach to playlist. Filter your music library with your custom tags to make playlists on demand.
+# ParshendiTui
+ParshendiTui is a music player that takes a different aproach to playlist. Filter your music library with your custom tags to make playlists on demand.
 
 ### Installation
 
