@@ -1,6 +1,6 @@
 {
-  "name": "MusicTag",
-  "version": "3",
+  "name": "parshendi-tui",
+  "version": "0.6.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
