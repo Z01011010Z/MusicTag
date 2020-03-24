@@ -1,0 +1,115 @@
+{
+  "categories": [
+    {
+      "id": "A",
+      "name": "Genre",
+      "state": "include",
+      "color": "white",
+      "tags": [
+        {
+          "id": "1",
+          "name": "Rock",
+          "selected": false
+        },
+        {
+          "id": "2",
+          "selected": false,
+          "name": "Metal"
+        },
+        {
+          "id": "3",
+          "selected": false,
+          "name": "Pop"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Age",
+      "state": "exclude",
+      "color": "blue",
+      "tags": [
+        {
+          "id": "4",
+          "selected": false,
+          "name": "80s"
+        },
+        {
+          "id": "5",
+          "selected": false,
+          "name": "90s"
+        },
+        {
+          "id": "6",
+          "selected": false,
+          "name": "Modern"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Language",
+      "state": "include",
+      "color": "red",
+      "tags": [
+        {
+          "id": "7",
+          "selected": false,
+          "name": "English"
+        },
+        {
+          "id": "8",
+          "selected": false,
+          "name": "Spanish"
+        }
+      ]
+    },
+    {
+      "id": "hX8RLeNt0",
+      "name": "Pace",
+      "state": "include",
+      "color": "yellow",
+      "tags": [
+        {
+          "id": "tM_Yh9h5b",
+          "selected": false,
+          "name": "Slow"
+        },
+        {
+          "id": "Cc25jxLYX",
+          "selected": false,
+          "name": "Fast"
+        }
+      ]
+    }
+  ],
+  "songs": [
+    {
+      "id": "15Pz3eVm7",
+      "title": "Paranoid",
+      "artist": "Black Sabbath",
+      "album": "Paranoid",
+      "length": 351.36,
+      "file": "Black Sabbath - Iron Man.mp3",
+      "tags": []
+    },
+    {
+      "id": "rzo0ITXIgY",
+      "title": "Harder, Better, Faster, Stronger",
+      "artist": "Daft Punk",
+      "album": "Discovery",
+      "length": 222.90285714285713,
+      "file": "Daft Punk - Harder Better Faster.mp3",
+      "tags": [
+        {
+          "color": "yellow",
+          "id": "tM_Yh9h5b",
+          "name": "Slow"
+        }
+      ]
+    }
+  ],
+  "config": {
+    "libraryPath": "/home/z01011010/Downloads/Musica/"
+  }
+}
