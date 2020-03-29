@@ -181,10 +181,10 @@ module.exports = function normalizeComponent (
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_blessed_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_vue__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store__ = __webpack_require__(16);
 
 
 
@@ -193,8 +193,15 @@ const el = __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.dom.createElement
 
 __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.dom.append(el);
 
+__WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.$db = 'DB!';
+__WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.prototype.$db = __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.$db;
 
 __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.mixin({
+    data: () => {
+        return {
+            db: 'DB!!'
+        }
+    },
     methods: {
         formatTime(time) {
             const min = ~~(time / 60);
@@ -230,46 +237,37 @@ const instance = new __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a({
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("vuex");
+module.exports = require("shortid");
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("lowdb");
+module.exports = require("vuex");
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("lowdb/adapters/FileSync");
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-module.exports = require("shortid");
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
 module.exports = require("blessed-vue");
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_topButtons_vue__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_tags_vue__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_songList_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_topButtons_vue__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tags_vue__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_songPlayer_vue__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_newCategory_vue__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_editCategory_vue__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_config_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_newCategory_vue__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_editCategory_vue__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_msg_vue__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_local_songList_vue__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_local_config_vue__ = __webpack_require__(19);
+//
 //
 //
 //
@@ -286,23 +284,29 @@ module.exports = require("blessed-vue");
 
 
 
+// Shared
 
 
 
 
+
+
+
+// Local Driver
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'app',
     components: {
-        topButtons: __WEBPACK_IMPORTED_MODULE_1__components_topButtons_vue__["a" /* default */],
+        topButtons: __WEBPACK_IMPORTED_MODULE_2__components_topButtons_vue__["a" /* default */],
         newCategory: __WEBPACK_IMPORTED_MODULE_5__components_newCategory_vue__["a" /* default */],
         editCategory: __WEBPACK_IMPORTED_MODULE_6__components_editCategory_vue__["a" /* default */],
-        tags: __WEBPACK_IMPORTED_MODULE_2__components_tags_vue__["a" /* default */],
-        songList: __WEBPACK_IMPORTED_MODULE_3__components_songList_vue__["a" /* default */],
+        tags: __WEBPACK_IMPORTED_MODULE_3__components_tags_vue__["a" /* default */],
+        songList: __WEBPACK_IMPORTED_MODULE_8__components_local_songList_vue__["a" /* default */],
         songPlayer: __WEBPACK_IMPORTED_MODULE_4__components_songPlayer_vue__["a" /* default */],
-        config: __WEBPACK_IMPORTED_MODULE_7__components_config_vue__["a" /* default */],
+        config: __WEBPACK_IMPORTED_MODULE_9__components_local_config_vue__["a" /* default */],
+        msg: __WEBPACK_IMPORTED_MODULE_7__components_msg_vue__["a" /* default */]
     },
     computed: {},
     methods: {},
@@ -318,11 +322,10 @@ module.exports = require("blessed-vue");
 
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(1);
 //
 //
 //
@@ -331,105 +334,6 @@ module.exports = require("blessed-vue");
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    name: 'configModal',
-    mounted: function () {
-        this.$refs.libraryPath.setValue(this.$store.state.libraryPath);
-        __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$on('setModal', ({modal, state}) => {
-            if(modal === 'config')
-                this.hidden = state
-        });
-    },
-    methods: {
-        async saveLibraryPath() {
-            await this.$store.commit('setLibraryPath', this.$refs.libraryPath.value);
-            this.updateLibrary();
-        },
-        updateLibrary() {
-            this.$store.commit('checkLibrary');
-        },
-        closeModal() {
-            __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('setModal', {modal: 'config', state: true});
-        }
-    },
-    data: function () {
-        return {
-            hidden: true,
-            border: {type: 'line', fg: 'lightcyan', bg: 'black'},
-            modalBorder: {type: '█', fg: 'lightblack', bg: 'lightblack'}
-        }
-    },
-    computed: {
-        libraryPath() {
-            return this.$store.state.libraryPath;
-        }
-    }
-});
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'controls',
@@ -446,35 +350,26 @@ module.exports = require("blessed-vue");
     },
     data: () => {
         return {
+            style: {
+                fg: 'blue',
+                bg: 'normal',
+                focus: { bg: 'lightblack' },
+                hover: { bg: 'lightblack' },
+            },
+            border: { type: 'line', fg: 'cyan' },
+            padding: { left: 1, right: 1 }
         }
     },
     computed: {
         playButtonText() {
             return this.$store.state.playing ? 'Pause' : 'Play ';
-        },
-        style() {
-            return {
-                fg: 'blue',
-                bg: 'normal',
-                focus: { bg: 'lightblack' },
-                hover: { bg: 'lightblack' },
-            }
-        },
-        border() {
-            return {
-                type: 'line',
-                fg: 'cyan',
-            }
-        },
-        padding() {
-            return { left: 1, right: 1 }
         }
     },
 });
 
 
 /***/ }),
-/* 10 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -603,7 +498,7 @@ module.exports = require("blessed-vue");
         },
         addTag() {
             if (this.$refs.newTagInput.value) {
-                const shortid = __webpack_require__(5);
+                const shortid = __webpack_require__(2);
 
                 const tag = {
                     id: shortid.generate(),
@@ -632,12 +527,7 @@ module.exports = require("blessed-vue");
             this.category.color = newColor;
             this.category.name = this.$refs.categoryName.value;
 
-            const low = __webpack_require__(3);
-            const FileSync = __webpack_require__(4);
-            const adapter = new FileSync('db.json');
-            const db = low(adapter);
-
-            db.get('categories').find({id: this.category.id}).assign(this.category).write();
+            this.$store.state.db.get('categories').find({id: this.category.id}).assign(this.category).write();
             __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('updateCategory', {category: this.category, changes: this.changes});
             __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('setModal', {modal: 'editCategory', state: true});
         },
@@ -679,6 +569,248 @@ module.exports = require("blessed-vue");
             }
         }
     }
+});
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'configModal',
+    mounted: function () {
+        this.$refs.libraryPath.setValue(this.$store.state.db.get('config.libraryPath').value());
+        __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$on('setModal', ({modal, state}) => {
+            if(modal === 'config')
+                this.hidden = state
+        });
+    },
+    methods: {
+        async saveLibraryPath() {
+            await this.$store.commit('setLibraryPath', this.$refs.libraryPath.value);
+            this.updateLibrary();
+        },
+        updateLibrary() {
+            this.$store.commit('checkLibrary');
+        },
+        closeModal() {
+            __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('setModal', {modal: 'config', state: true});
+        }
+    },
+    data: function () {
+        return {
+            hidden: true,
+            border: {type: 'line', fg: 'lightcyan', bg: 'black'},
+            modalBorder: {type: '█', fg: 'lightblack', bg: 'lightblack'}
+        }
+    },
+    computed: {
+        libraryPath() {
+            return this.$store.state.libraryPath;
+        }
+    }
+});
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'songList',
+    data: function () {
+        return {}
+    },
+    mounted: function () {
+        this.$refs.songList.on('select item', this.selectedSong);
+        this.$store.commit('setSelectedSong', 0);
+
+        this.$refs.songList.on('mouseover', () => {
+            this.$refs.songList.focus();
+        });
+    },
+    methods: {
+        selectedSong() {
+            const index = this.$refs.songList.selected - 1;
+            this.$store.commit('setSelectedSong', index);
+        },
+        pickedSong() {
+            const index = this.$refs.songList.selected - 1;
+            this.$store.dispatch('playSong', index)
+        }
+    },
+    computed: {
+        playlist() {
+            const headers = ['Title', 'Artist', 'Album', 'Duration'];
+            const songs = this.$store.state.currentPlaylist.map(({title, artist, album, length}, index) => {
+                if (this.$store.state.playing) {
+                    if (index === this.$store.state.currentIndexPlaying) {
+                        title = this.formatColor(title, 'yellow');
+                    }
+                }
+                return [title, artist, album, this.formatTime(length)];
+            });
+            return [headers, ...songs];
+        },
+        style() {
+            return {
+                bg: "normal",
+                fg: "normal",
+                border: {type: 'line', fg: 'lightcyan'},
+                label: {fg: 'white'},
+                header: {
+                    bold: true,
+                    underline: true,
+                    fg: 'blue',
+                },
+                cell: {
+                    fg: 'normal',
+                    bg: 'normal',
+                    selected: {
+                        bold: true,
+                        fg: 'blue',
+                        bg: 'black',
+                    },
+                    item: {
+                        fg: 'normal',
+                        bg: 'normal',
+                    },
+                },
+                focus: {
+                    border: {fg: 'cyan'},
+                },
+            }
+        },
+        position() {
+            return {
+                width: '70%',
+                height: '100%-6',
+                top: 0,
+                right: 0
+            }
+        },
+        border() {
+            return {
+                type: 'line',
+                fg: 'lightcyan',
+            }
+        }
+    },
+});
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__index__ = __webpack_require__(1);
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    name: 'msg',
+    data: () => {
+        return {
+            hidden: true,
+            border: {type: 'line', 'fg': 'blue'},
+            style: {bg: 'black'}
+        };
+    },
+    mounted() {
+        __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$on('message', ({msg, isError}) => {
+            this.hidden = false;
+            if (isError)
+                this.$refs.message.error(msg, 3, () => this.hidden = false);
+            else
+                this.$refs.message.log(msg, 3, () => this.hidden = false);
+        })
+    },
 });
 
 
@@ -788,7 +920,7 @@ module.exports = require("blessed-vue");
         },
         addTag() {
             if (this.$refs.newTagInput.value) {
-                const shortid = __webpack_require__(5);
+                const shortid = __webpack_require__(2);
 
                 const tag = {
                     id: shortid.generate(),
@@ -808,25 +940,25 @@ module.exports = require("blessed-vue");
             }
         },
         saveCategory() {
-            const shortid = __webpack_require__(5);
+            if(this.category.tags.length > 0 ) {
+                const shortid = __webpack_require__(2);
 
-            const category = {
-                'id': shortid.generate(),
-                'name': this.$refs.categoryName.value,
-                'state': this.category.state,
-                'color': this.colors[this.$refs.categoryColor.selected],
-                'tags': this.category.tags
-            };
+                const category = {
+                    'id': shortid.generate(),
+                    'name': this.$refs.categoryName.value,
+                    'state': this.category.state,
+                    'color': this.colors[this.$refs.categoryColor.selected],
+                    'tags': this.category.tags
+                };
 
-            const low = __webpack_require__(3);
-            const FileSync = __webpack_require__(4);
-            const adapter = new FileSync('db.json');
-            const db = low(adapter);
-            db.get('categories').push(category).write();
+                this.$store.state.db.get('categories').push(category).write();
 
-            __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('newCategory', category);
-            this.hidden = true;
-            this.reset();
+                __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('newCategory', category);
+                this.hidden = true;
+                this.reset();
+            } else {
+                __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('message', {msg: 'You must create at least one tag!', isError: true});
+            }
         },
         cancelCreate() {
             this.hidden = true;
@@ -881,8 +1013,7 @@ module.exports = require("blessed-vue");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__controls_vue__ = __webpack_require__(17);
 //
 //
 //
@@ -894,95 +1025,49 @@ module.exports = require("blessed-vue");
 //
 //
 //
-//
-//
-//
-//
-//
-//
-
 
 
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    name: 'songList',
-    data: function () {
-        return {}
+    name: 'songPlayer',
+    components: {
+        controls: __WEBPACK_IMPORTED_MODULE_0__controls_vue__["a" /* default */]
     },
-    mounted: function () {
-        this.$refs.songList.on('select item', this.selectedSong);
-        this.$store.commit('setSelectedSong', 0);
-
-        this.$refs.songList.on('mouseover', () => {
-            this.$refs.songList.focus();
-        });
-    },
-    methods: {
-        selectedSong() {
-            const index = this.$refs.songList.selected - 1;
-            this.$store.commit('setSelectedSong', index);
-        },
-        pickedSong() {
-            const index = this.$refs.songList.selected - 1;
-            this.$store.dispatch('playSong', index)
-        }
-    },
-    computed: {
-        playlist() {
-            const headers = ['Title', 'Artist', 'Album', 'Duration'];
-            const songs = this.$store.state.currentPlaylist.map(({title, artist, album, length}, index) => {
-                if (this.$store.state.playing) {
-                    if (index === this.$store.state.currentIndexPlaying) {
-                        title = this.formatColor(title, 'yellow');
-                    }
-                }
-                return [title, artist, album, this.formatTime(length)];
-            });
-            return [headers, ...songs];
-        },
-        style() {
-            return {
-                bg: "normal",
-                fg: "normal",
-                border: {type: 'line', fg: 'lightcyan'},
+    methods: {},
+    data: () => {
+        return {
+            barStyle: {
+                bg: 'black',
+                bar: {bg: 'blue'},
+                focus: {border: {fg: "cyan"}},
                 label: {fg: 'white'},
-                header: {
-                    bold: true,
-                    underline: true,
-                    fg: 'blue',
-                },
-                cell: {
-                    fg: 'normal',
-                    bg: 'normal',
-                    selected: {
-                        bold: true,
-                        fg: 'blue',
-                        bg: 'black',
-                    },
-                    item: {
-                        fg: 'normal',
-                        bg: 'normal',
-                    },
-                },
-                focus: {
-                    border: {fg: 'cyan'},
-                },
-            }
-        },
-        position() {
-            return {
-                width: '70%',
-                height: '100%-6',
-                top: 0,
-                right: 0
-            }
-        },
-        border() {
-            return {
+            },
+            currentlyPlayingStyle: {
+                focus: {border: {fg: "cyan"}},
+                label: {fg: 'white',}
+            },
+            border: {
                 type: 'line',
                 fg: 'lightcyan',
             }
         }
+    },
+    computed: {
+        progress() {
+            if (!this.$store.state.currentSong) return 0;
+            return (100 * this.$store.state.currentSec / this.$store.state.currentSong.length) | 0
+        },
+        currentTime() {
+            if (!this.$store.state.currentSong) return '0:00';
+            return this.formatTime(this.$store.state.currentSec);
+        },
+        maxTime() {
+            if (!this.$store.state.currentSong) return '0:00';
+            return this.formatTime(this.$store.state.currentSong.length);
+        },
+        currentSong() {
+            return this.$store.state.currentSong || {title: 'No song playing'};
+        },
     },
 });
 
@@ -992,78 +1077,7 @@ module.exports = require("blessed-vue");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controls_vue__ = __webpack_require__(19);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    name: 'songPlayer',
-    components: {
-        controls: __WEBPACK_IMPORTED_MODULE_1__controls_vue__["a" /* default */]
-    },
-    methods: {},
-    data: () => {
-        return {}
-    },
-    computed: {
-        progress() {
-            if (this.$store.state.maxSec === 0) return 0;
-            return (100 * this.$store.state.currentSec / this.$store.state.maxSec) | 0
-        },
-        currentTime() {
-            return this.formatTime(this.$store.state.currentSec);
-        },
-        maxTime() {
-            return this.formatTime(this.$store.state.maxSec);
-        },
-        currentSong() {
-            return this.$store.state.currentSong;
-        },
-        barStyle() {
-            return {
-                bg: 'black',
-                bar: {bg: 'blue'},
-                focus: {border: {fg: "cyan"}},
-                label: {fg: 'white'},
-            }
-        },
-        border() {
-            return {
-                type: 'line',
-                fg: 'lightcyan',
-            }
-        },
-        currentlyPlayingStyle() {
-            return {
-                focus: {border: {fg: "cyan"}},
-                label: {fg: 'white',}
-            }
-        }
-    },
-});
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__index__ = __webpack_require__(1);
 //
@@ -1189,14 +1203,7 @@ module.exports = require("blessed-vue");
         __WEBPACK_IMPORTED_MODULE_1__index__["EventBus"].$on('deleteCategory', this.deleteCategory);
         __WEBPACK_IMPORTED_MODULE_1__index__["EventBus"].$on('updateCategory', this.updateCategory);
 
-        const low = __webpack_require__(3);
-
-        const FileSync = __webpack_require__(4);
-        const adapter = new FileSync('db.json');
-        const db = low(adapter);
-        db.read();
-
-        this.categories = db.get('categories').value();
+        this.categories = this.$store.state.db.get('categories').value();
 
         this.$refs.currentTags.on('key r', () => {
             const selected = this.$refs.currentTags.selected;
@@ -1227,7 +1234,7 @@ module.exports = require("blessed-vue");
     computed: {
         getCategories() {
             return this.categories.map(({id, name, state, tags, color}) => {
-                const label = `${this.formatColor(name, color)} (${state === 'include' ? this.formatColor(state, 'yellow') : this.formatColor(state, 'magenta')})`;
+                const label = `${color !== 'normal' ? this.formatColor(name, color) : name} (${state === 'include' ? this.formatColor(state, 'yellow') : this.formatColor(state, 'magenta')})`;
                 tags = tags.map(tag => ` [${tag.selected ? 'X' : ' '}] ${tag.name}`);
                 const style = {
                     selected: {bold: true, bg: 'black'},
@@ -1238,9 +1245,9 @@ module.exports = require("blessed-vue");
             });
         },
         currentSongTags() {
-            return this.$store.state.selectedSong.tags.map(tag => {
+            return this.$store.state.selectedSong ? this.$store.state.selectedSong.tags.map(tag => {
                 return this.formatColor(tag.name, tag.color);
-            });
+            }) : [];
         },
         style() {
             return {
@@ -1268,7 +1275,7 @@ module.exports = require("blessed-vue");
 
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1313,13 +1320,13 @@ module.exports = require("blessed-vue");
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_app_vue__ = __webpack_require__(5);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_381730fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_381730fa_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_app_vue__ = __webpack_require__(29);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1348,54 +1355,40 @@ Component.options.__file = "app.vue"
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_blessed_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuex__);
 
 
 
 // File reader
-const fs = __webpack_require__(35);
+const fs = __webpack_require__(36);
 
 // Song Player
-const mpg = __webpack_require__(36);
+const mpg = __webpack_require__(39);
 const player = new mpg.MpgPlayer();
 
 // Song Metadata
-const mm = __webpack_require__(37);
+const mm = __webpack_require__(40);
 
 // DB
-const shortid = __webpack_require__(5);
-const low = __webpack_require__(3);
-const FileSync = __webpack_require__(4);
+const shortid = __webpack_require__(2);
+const low = __webpack_require__(37);
+const FileSync = __webpack_require__(38);
 const adapter = new FileSync('db.json');
 const db = low(adapter);
 
 __WEBPACK_IMPORTED_MODULE_0_blessed_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex___default.a);
 
-// Song
-// {
-//  'title': 'Song Title',
-//  'artist': 'Song Artist',
-//  'album': 'Song Album',
-//  'length': 'Song Length',
-//  'file': 'song.mp3',
-//  'tags': ['Tag 1', 'Tag 2']
-// }
-
-// Categories
-// {
-//  'name': 'Category 1'
-//  'tags': [
-//      {'name': 'Tag 1', 'Color': 'red'}
-//  ]
-// }
-
+// Drivers ENUM
+const drivers = Object.freeze({
+    LOCAL: 'local'
+});
 
 db.defaults({
     "songs": [],
@@ -1405,66 +1398,47 @@ db.defaults({
     }
 }).write();
 
-// root state object.
-// each Vuex instance is just a single state tree.
 const state = {
-    libraryPath: db.get('config.libraryPath').value(),
-    currentSong: {
-        title: 'No Song Selected',
-    },
-    selectedSong: {
-        tags: []
-    },
+    db,
+    driver: drivers.LOCAL,
+    currentSong: null,
+    selectedSong: null,
     categories: [],
     playlist: [],
     currentPlaylist: [],
     playing: false,
     currentSec: 0,
-    maxSec: 0,
-    currentIndexPlaying: 0,
+    currentIndexPlaying: null,
     currentIndexSelected: 0,
 };
 
-// mutations are operations that actually mutates the state.
-// each mutation handler gets the entire state tree as the
-// first argument, followed by additional payload arguments.
-// mutations must be synchronous and can be recorded by plugins
-// for debugging purposes.
 const mutations = {
-    setSong(state, index) {
+    setPlayingSong(state, index) {
         state.playing = true;
+        state.currentSec = 0;
         state.currentIndexPlaying = index;
         state.currentSong = state.currentPlaylist[index];
     },
     stopPlaying(state) {
         state.playing = false;
-        state.currentSec = 0;
-        state.maxSec = 0;
-        state.currentIndexPlaying = -1;
-        state.currentSong = {title: 'No Song Selected'};
+        state.currentIndexPlaying = null;
+        state.currentSong = null;
         player.stop();
     },
     setSelectedSong(state, index) {
         state.currentIndexSelected = index;
-        if (state.currentPlaylist.length > 0) {
+        if (state.currentPlaylist.length > 0)
             state.selectedSong = state.currentPlaylist[index];
-        } else {
-            state.selectedSong = {tags: []};
-        }
-    },
-    addToPlaylist(state, song) {
-        state.currentPlaylist.push(song);
+        else
+            state.selectedSong = null;
+
     },
     setPlaylist(state, songs) {
         state.playlist = songs;
         state.currentPlaylist = songs;
     },
     setLibraryPath(state, path) {
-        state.libraryPath = path;
-        db.get('config').assign({'libraryPath': path}).write();
-    },
-    setCategories(state, categories) {
-        state.categories = categories;
+        state.db.get('config').assign({'libraryPath': path}).write();
     },
     filterInclude(state, include) {
         for (const includeIds of Object.values(include)) {
@@ -1488,8 +1462,8 @@ const mutations = {
         state.playlist.find(song => song.id === id).tags.push(tag);
     },
     addTagToDB(state, {tag, id}) {
-        db.read();
-        db.get('songs').find({id}).get('tags').push(tag).write();
+        state.db.read();
+        state.db.get('songs').find({id}).get('tags').push(tag).write();
     },
     setModal(state, {modal, visibility}) {
         state.modals[modal] = visibility;
@@ -1500,28 +1474,30 @@ const mutations = {
     async checkLibrary(state) {
         // TODO METODO NADA EFICIENTE
         // Add slash if not include
-        if (!state.libraryPath.endsWith('/'))
-            state.libraryPath += '/';
+        const libraryPath = state.db.get('config.libraryPath').value();
+
+        if (!libraryPath.endsWith('/'))
+            libraryPath += '/';
 
         let songsInLibrary = [];
-        if (fs.existsSync(state.libraryPath))
-            songsInLibrary = fs.readdirSync(state.libraryPath);
+        if (fs.existsSync(libraryPath))
+            songsInLibrary = fs.readdirSync(libraryPath);
 
         // Borrar canciones que ya no existen
-        db.get('songs')
+        state.db.get('songs')
             .remove((song) => {
                 return !songsInLibrary.includes(song.file)
             }).write();
 
         // Filtrar nuevas canciones
         const newSongsPaths = songsInLibrary.filter(songPath =>
-            !db.get('songs').map(song => song.file).value().includes(songPath)
+            !state.db.get('songs').map(song => song.file).value().includes(songPath)
         );
 
         // Agregar nuevas
         let newSongs = [];
         for (const newSongPath of newSongsPaths) {
-            const metadata = await mm.parseFile(state.libraryPath + newSongPath);
+            const metadata = await mm.parseFile(libraryPath + newSongPath);
             newSongs.push({
                 'id': shortid.generate(),
                 'title': metadata.common.title,
@@ -1532,10 +1508,9 @@ const mutations = {
                 'tags': []
             });
         }
-        db.get('songs').push(...newSongs).write();
+        state.db.get('songs').push(...newSongs).write();
 
-        db.read();
-        const songs = db.get('songs').sortBy('title').value();
+        const songs = state.db.get('songs').sortBy('title').value();
         state.playlist = songs;
         state.currentPlaylist = songs;
     }
@@ -1545,16 +1520,15 @@ const mutations = {
 // asynchronous operations.
 const actions = {
         updateSongsCategory({state}, changes) {
-            db.read();
             state.playlist.forEach(song => {
                 song.tags.forEach((tag, index, tags) => {
                     if (changes.tagsEdited.includes(tag.id)) {
                         tag.color = changes.color;
-                        db.get('songs').find({id: song.id}).get('tags').find({id: tag.id}).assign({color: changes.color}).write();
+                        state.db.get('songs').find({id: song.id}).get('tags').find({id: tag.id}).assign({color: changes.color}).write();
                     }
                     if (changes.tagsDeleted.includes(tag.id)) {
                         tags.splice(index, 1);
-                        db.get('songs').find({id: song.id}).get('tags').remove({id: tag.id}).write();
+                        state.db.get('songs').find({id: song.id}).get('tags').remove({id: tag.id}).write();
                     }
                     // TODO add logic for renamed
                 });
@@ -1572,7 +1546,6 @@ const actions = {
             }
         },
         removeTag({state}, tagId) {
-            db.read();
             const id = state.selectedSong.id;
 
             // Remove from playlist
@@ -1583,7 +1556,7 @@ const actions = {
             state.selectedSong.tags = state.selectedSong.tags.filter(tag => tagId !== tag.id);
 
             // Remove from db
-            db.get('songs').find({id}).get('tags').remove({id: tagId}).write();
+            state.db.get('songs').find({id}).get('tags').remove({id: tagId}).write();
         },
         filterPlaylist({commit, state}, filters) {
             state.currentPlaylist = [...state.playlist]; //Copy playlist
@@ -1601,14 +1574,14 @@ const actions = {
                 if (index === -1) { // Not found in current playlist
                     commit('stopPlaying');
                 } else {
-                    commit('setSong', index);
+                    commit('setPlayingSong', index);
                 }
             }
         },
         playSong({commit, state}, index) {
-            commit('setSong', index);
-            player.play(state.libraryPath + state.currentSong.file);
-            state.maxSec = player.length;
+            commit('setPlayingSong', index);
+            const libraryPath = state.db.get('config.libraryPath').value();
+            player.play(libraryPath + state.currentSong.file);
         },
         togglePlay({state}) {
             if (state.currentSong.file) {
@@ -1617,12 +1590,11 @@ const actions = {
             }
         },
         prev({state, dispatch}) {
-            if (state.currentSec > 10) {
-                player.seek(0);
-            } else {
-                if (state.currentIndexPlaying !== 0) {
+            if (state.playing) {
+                if (state.currentSec > 10)
+                    player.seek(0);
+                else if (state.currentIndexPlaying !== 0)
                     dispatch('playSong', state.currentIndexPlaying - 1);
-                }
             }
         },
         next({state, dispatch}) {
@@ -1651,13 +1623,12 @@ player.on('frame', ([cFrame, rFrame, cTime, rTime]) => {
 });
 
 player.on('format', () => {
-    store.state.maxSec = player.length;
+    store.state.currentSong.length = player.length;
 });
 
 player.on('end', () => {
-    if (store.state.playing) {
+    if (store.state.playing)
         store.dispatch('next');
-    }
 });
 
 // A Vuex instance is created by combining the state, mutations, actions,
@@ -1666,48 +1637,13 @@ player.on('end', () => {
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_config_vue__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_controls_vue__ = __webpack_require__(6);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5f7b133d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_config_vue__ = __webpack_require__(32);
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = "2e44934d"
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_config_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_5f7b133d_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_config_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "components/config.vue"
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_controls_vue__ = __webpack_require__(9);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_405feff1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_controls_vue__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_405feff1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_controls_vue__ = __webpack_require__(31);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1736,13 +1672,13 @@ Component.options.__file = "components/controls.vue"
 
 
 /***/ }),
-/* 20 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_editCategory_vue__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_editCategory_vue__ = __webpack_require__(7);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ecd7be3_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_editCategory_vue__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_4ecd7be3_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_editCategory_vue__ = __webpack_require__(33);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1771,13 +1707,118 @@ Component.options.__file = "components/editCategory.vue"
 
 
 /***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_config_vue__ = __webpack_require__(8);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ad1a3be_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_config_vue__ = __webpack_require__(26);
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = "3aa46231"
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_config_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0ad1a3be_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_config_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "components/local/config.vue"
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 20 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songList_vue__ = __webpack_require__(9);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_48a0e81c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songList_vue__ = __webpack_require__(32);
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = "4d3ffc02"
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songList_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_48a0e81c_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songList_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "components/local/songList.vue"
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
 /* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_msg_vue__ = __webpack_require__(10);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0d5693d4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_msg_vue__ = __webpack_require__(27);
+var normalizeComponent = __webpack_require__(0)
+/* script */
+
+
+/* template */
+
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = "e8ac9ff4"
+var Component = normalizeComponent(
+  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_msg_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_0d5693d4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_msg_vue__["a" /* default */],
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "components/msg.vue"
+
+/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
+
+
+/***/ }),
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_newCategory_vue__ = __webpack_require__(11);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a572f45a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_newCategory_vue__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_a572f45a_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_newCategory_vue__ = __webpack_require__(35);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1806,48 +1847,13 @@ Component.options.__file = "components/newCategory.vue"
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songList_vue__ = __webpack_require__(12);
-/* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d1a2cbe4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songList_vue__ = __webpack_require__(34);
-var normalizeComponent = __webpack_require__(0)
-/* script */
-
-
-/* template */
-
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = "4ccf53c4"
-var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songList_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_d1a2cbe4_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songList_vue__["a" /* default */],
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "components/songList.vue"
-
-/* harmony default export */ __webpack_exports__["a"] = (Component.exports);
-
-
-/***/ }),
 /* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songPlayer_vue__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_songPlayer_vue__ = __webpack_require__(12);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c0f94d1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songPlayer_vue__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_2c0f94d1_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_songPlayer_vue__ = __webpack_require__(28);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1880,9 +1886,9 @@ Component.options.__file = "components/songPlayer.vue"
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_tags_vue__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_tags_vue__ = __webpack_require__(13);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_53e5bd54_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tags_vue__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_53e5bd54_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_tags_vue__ = __webpack_require__(34);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1915,9 +1921,9 @@ Component.options.__file = "components/tags.vue"
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_topButtons_vue__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__node_modules_vue_loader_lib_selector_type_script_index_0_topButtons_vue__ = __webpack_require__(14);
 /* unused harmony namespace reexport */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3d255de7_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_topButtons_vue__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_3d255de7_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_topButtons_vue__ = __webpack_require__(30);
 var normalizeComponent = __webpack_require__(0)
 /* script */
 
@@ -1947,6 +1953,176 @@ Component.options.__file = "components/topButtons.vue"
 
 /***/ }),
 /* 26 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "box",
+    {
+      ref: "modalNewCategory",
+      staticStyle: { bg: "black", "border.bg": "lightblack" },
+      attrs: {
+        width: "40%",
+        height: "80%",
+        left: "center",
+        top: "center",
+        border: _vm.modalBorder,
+        hidden: _vm.hidden
+      }
+    },
+    [
+      _c("text", {
+        staticStyle: {
+          fg: "lightblack",
+          bg: "black",
+          bold: "true",
+          underline: "true"
+        },
+        attrs: { height: 1, left: "center", top: 1, content: "Config" }
+      }),
+      _vm._v(" "),
+      _c("textbox", {
+        ref: "libraryPath",
+        staticStyle: {
+          "label.bg": "black",
+          "label.fg": "white",
+          "label.bold": "true"
+        },
+        attrs: {
+          inputOnFocus: true,
+          left: 3,
+          top: 4,
+          height: 3,
+          width: "70%-3",
+          mouse: true,
+          keys: true,
+          interactive: true,
+          border: _vm.border,
+          label: "Library Path"
+        }
+      }),
+      _vm._v(" "),
+      _c("button", {
+        ref: "saveLibraryPathButton",
+        staticStyle: {
+          fg: "cyan",
+          bg: "black",
+          bold: "true",
+          "border.fg": "cyan",
+          "border.bg": "black"
+        },
+        attrs: {
+          right: 3,
+          top: 4,
+          height: 3,
+          width: "30%-4",
+          mouse: true,
+          keys: true,
+          interactive: true,
+          align: "center",
+          border: _vm.border,
+          content: "Save"
+        },
+        on: { press: _vm.saveLibraryPath }
+      }),
+      _vm._v(" "),
+      _c(
+        "text",
+        { attrs: { left: 3, width: "100%-7", top: 7, border: _vm.border } },
+        [
+          _vm._v(
+            "\n        Thank you for using MusicTag!\n\n        * How add tags:\n        Hover over the tag in the category and press 'a'\n        * How to remove tags:\n        Select the tag in the \"Current Tags\" and press 'r'\n        * How to edit a category:\n        Hover over the category and press 'e'\n        * How to toggle between modes of filtering\n        Hover over a category and press 't'\n    "
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        ref: "updateLibrariesButton",
+        staticStyle: {
+          fg: "cyan",
+          bg: "black",
+          bold: "true",
+          "border.fg": "cyan",
+          "border.bg": "black"
+        },
+        attrs: {
+          left: "center",
+          bottom: 6,
+          height: 3,
+          width: "30%-4",
+          mouse: true,
+          keys: true,
+          interactive: true,
+          align: "center",
+          border: _vm.border,
+          content: "Update Library"
+        },
+        on: { press: _vm.updateLibrary }
+      }),
+      _vm._v(" "),
+      _c("button", {
+        ref: "closeConfigButton",
+        staticStyle: {
+          fg: "red",
+          bg: "black",
+          bold: "true",
+          "border.fg": "red",
+          "border.bg": "black"
+        },
+        attrs: {
+          left: "center",
+          bottom: 2,
+          height: 3,
+          mouse: true,
+          keys: true,
+          interactive: true,
+          align: "center",
+          border: _vm.border,
+          content: "Close"
+        },
+        on: { press: _vm.closeModal }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+/* 27 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("message", {
+    ref: "message",
+    attrs: {
+      bottom: 1,
+      left: 2,
+      width: "25%",
+      height: "15%",
+      border: _vm.border,
+      hidden: _vm.hidden
+    }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2008,7 +2184,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2032,7 +2208,9 @@ var render = function() {
       _vm._v(" "),
       _c("editCategory"),
       _vm._v(" "),
-      _c("config")
+      _c("config"),
+      _vm._v(" "),
+      _c("msg")
     ],
     1
   )
@@ -2043,7 +2221,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2092,7 +2270,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2144,7 +2322,38 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 30 */
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("listtable", {
+    ref: "songList",
+    style: _vm.style,
+    attrs: {
+      data: _vm.playlist,
+      position: _vm.position,
+      border: _vm.border,
+      mouse: true,
+      keys: true,
+      interactive: true,
+      vi: true,
+      search: true,
+      tags: true
+    },
+    on: { select: _vm.pickedSong }
+  })
+}
+var staticRenderFns = []
+render._withStripped = true
+var esExports = { render: render, staticRenderFns: staticRenderFns }
+/* harmony default export */ __webpack_exports__["a"] = (esExports);
+
+/***/ }),
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2413,7 +2622,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2483,151 +2692,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 32 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "box",
-    {
-      ref: "modalNewCategory",
-      staticStyle: { bg: "black", "border.bg": "lightblack" },
-      attrs: {
-        width: "40%",
-        height: "80%",
-        left: "center",
-        top: "center",
-        border: _vm.modalBorder,
-        hidden: _vm.hidden
-      }
-    },
-    [
-      _c("text", {
-        staticStyle: {
-          fg: "lightblack",
-          bg: "black",
-          bold: "true",
-          underline: "true"
-        },
-        attrs: { height: 1, left: "center", top: 1, content: "Config" }
-      }),
-      _vm._v(" "),
-      _c("textbox", {
-        ref: "libraryPath",
-        staticStyle: {
-          "label.bg": "black",
-          "label.fg": "white",
-          "label.bold": "true"
-        },
-        attrs: {
-          inputOnFocus: true,
-          left: 3,
-          top: 4,
-          height: 3,
-          width: "70%-3",
-          mouse: true,
-          keys: true,
-          interactive: true,
-          border: _vm.border,
-          label: "Library Path"
-        }
-      }),
-      _vm._v(" "),
-      _c("button", {
-        ref: "saveLibraryPathButton",
-        staticStyle: {
-          fg: "cyan",
-          bg: "black",
-          bold: "true",
-          "border.fg": "cyan",
-          "border.bg": "black"
-        },
-        attrs: {
-          right: 3,
-          top: 4,
-          height: 3,
-          width: "30%-4",
-          mouse: true,
-          keys: true,
-          interactive: true,
-          align: "center",
-          border: _vm.border,
-          content: "Save"
-        },
-        on: { press: _vm.saveLibraryPath }
-      }),
-      _vm._v(" "),
-      _c(
-        "text",
-        { attrs: { left: 3, width: "100%-7", top: 7, border: _vm.border } },
-        [
-          _vm._v(
-            "\n        Thank you for using MusicTag!\n\n        * How add tags:\n        Hover over the tag in the category and press 'a'\n        * How to remove tags:\n        Select the tag in the \"Current Tags\" and press 'r'\n        * How to edit a category:\n        Hover over the category and press 'e'\n        * How to toggle between modes of filtering\n        Hover over a category and press 't'\n    "
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        ref: "updateLibrariesButton",
-        staticStyle: {
-          fg: "cyan",
-          bg: "black",
-          bold: "true",
-          "border.fg": "cyan",
-          "border.bg": "black"
-        },
-        attrs: {
-          left: "center",
-          bottom: 6,
-          height: 3,
-          width: "30%-4",
-          mouse: true,
-          keys: true,
-          interactive: true,
-          align: "center",
-          border: _vm.border,
-          content: "Update Library"
-        },
-        on: { press: _vm.updateLibrary }
-      }),
-      _vm._v(" "),
-      _c("button", {
-        ref: "closeConfigButton",
-        staticStyle: {
-          fg: "red",
-          bg: "black",
-          bold: "true",
-          "border.fg": "red",
-          "border.bg": "black"
-        },
-        attrs: {
-          left: "center",
-          bottom: 2,
-          height: 3,
-          mouse: true,
-          keys: true,
-          interactive: true,
-          align: "center",
-          border: _vm.border,
-          content: "Close"
-        },
-        on: { press: _vm.closeModal }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2871,50 +2936,31 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 /* harmony default export */ __webpack_exports__["a"] = (esExports);
 
 /***/ }),
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("listtable", {
-    ref: "songList",
-    style: _vm.style,
-    attrs: {
-      data: _vm.playlist,
-      position: _vm.position,
-      border: _vm.border,
-      mouse: true,
-      keys: true,
-      interactive: true,
-      vi: true,
-      search: true,
-      tags: true
-    },
-    on: { select: _vm.pickedSong }
-  })
-}
-var staticRenderFns = []
-render._withStripped = true
-var esExports = { render: render, staticRenderFns: staticRenderFns }
-/* harmony default export */ __webpack_exports__["a"] = (esExports);
-
-/***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 module.exports = require("fs");
 
 /***/ }),
-/* 36 */
+/* 37 */
+/***/ (function(module, exports) {
+
+module.exports = require("lowdb");
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+module.exports = require("lowdb/adapters/FileSync");
+
+/***/ }),
+/* 39 */
 /***/ (function(module, exports) {
 
 module.exports = require("mpg123");
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = require("music-metadata");

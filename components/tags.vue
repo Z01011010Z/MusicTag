@@ -121,14 +121,7 @@
             EventBus.$on('deleteCategory', this.deleteCategory);
             EventBus.$on('updateCategory', this.updateCategory);
 
-            const low = require('lowdb');
-
-            const FileSync = require('lowdb/adapters/FileSync');
-            const adapter = new FileSync('db.json');
-            const db = low(adapter);
-            db.read();
-
-            this.categories = db.get('categories').value();
+            this.categories = this.$store.state.db.get('categories').value();
 
             this.$refs.currentTags.on('key r', () => {
                 const selected = this.$refs.currentTags.selected;
@@ -159,7 +152,7 @@
         computed: {
             getCategories() {
                 return this.categories.map(({id, name, state, tags, color}) => {
-                    const label = `${this.formatColor(name, color)} (${state === 'include' ? this.formatColor(state, 'yellow') : this.formatColor(state, 'magenta')})`;
+                    const label = `${color !== 'normal' ? this.formatColor(name, color) : name} (${state === 'include' ? this.formatColor(state, 'yellow') : this.formatColor(state, 'magenta')})`;
                     tags = tags.map(tag => ` [${tag.selected ? 'X' : ' '}] ${tag.name}`);
                     const style = {
                         selected: {bold: true, bg: 'black'},
@@ -170,9 +163,9 @@
                 });
             },
             currentSongTags() {
-                return this.$store.state.selectedSong.tags.map(tag => {
+                return this.$store.state.selectedSong ? this.$store.state.selectedSong.tags.map(tag => {
                     return this.formatColor(tag.name, tag.color);
-                });
+                }) : [];
             },
             style() {
                 return {

@@ -6,8 +6,15 @@ const el = Vue.dom.createElement();
 
 Vue.dom.append(el);
 
+Vue.$db = 'DB!';
+Vue.prototype.$db = Vue.$db;
 
 Vue.mixin({
+    data: () => {
+        return {
+            db: 'DB!!'
+        }
+    },
     methods: {
         formatTime(time) {
             const min = ~~(time / 60);

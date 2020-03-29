@@ -7,19 +7,25 @@
         <newCategory></newCategory>
         <editCategory></editCategory>
         <config></config>
+        <msg></msg>
     </screen>
 </template>
 
 <script>
     import {mapActions, mapState} from 'vuex'
+    import {EventBus} from "./index";
 
+    // Shared
     import topButtons from "./components/topButtons.vue";
     import tags from './components/tags.vue'
-    import songList from './components/songList.vue'
     import songPlayer from './components/songPlayer.vue'
     import newCategory from "./components/newCategory.vue";
     import editCategory from "./components/editCategory.vue";
-    import config from "./components/config.vue";
+    import msg from "./components/msg.vue";
+
+    // Local Driver
+    import songList from './components/local/songList.vue'
+    import config from "./components/local/config.vue";
 
     export default {
         name: 'app',
@@ -31,6 +37,7 @@
             songList,
             songPlayer,
             config,
+            msg
         },
         computed: {},
         methods: {},

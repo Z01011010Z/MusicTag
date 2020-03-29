@@ -10,8 +10,6 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from 'vuex'
-
     import controls from './controls.vue';
 
     export default {
@@ -21,42 +19,39 @@
         },
         methods: {},
         data: () => {
-            return {}
-        },
-        computed: {
-            progress() {
-                if (this.$store.state.maxSec === 0) return 0;
-                return (100 * this.$store.state.currentSec / this.$store.state.maxSec) | 0
-            },
-            currentTime() {
-                return this.formatTime(this.$store.state.currentSec);
-            },
-            maxTime() {
-                return this.formatTime(this.$store.state.maxSec);
-            },
-            currentSong() {
-                return this.$store.state.currentSong;
-            },
-            barStyle() {
-                return {
+            return {
+                barStyle: {
                     bg: 'black',
                     bar: {bg: 'blue'},
                     focus: {border: {fg: "cyan"}},
                     label: {fg: 'white'},
-                }
-            },
-            border() {
-                return {
+                },
+                currentlyPlayingStyle: {
+                    focus: {border: {fg: "cyan"}},
+                    label: {fg: 'white',}
+                },
+                border: {
                     type: 'line',
                     fg: 'lightcyan',
                 }
-            },
-            currentlyPlayingStyle() {
-                return {
-                    focus: {border: {fg: "cyan"}},
-                    label: {fg: 'white',}
-                }
             }
+        },
+        computed: {
+            progress() {
+                if (!this.$store.state.currentSong) return 0;
+                return (100 * this.$store.state.currentSec / this.$store.state.currentSong.length) | 0
+            },
+            currentTime() {
+                if (!this.$store.state.currentSong) return '0:00';
+                return this.formatTime(this.$store.state.currentSec);
+            },
+            maxTime() {
+                if (!this.$store.state.currentSong) return '0:00';
+                return this.formatTime(this.$store.state.currentSong.length);
+            },
+            currentSong() {
+                return this.$store.state.currentSong || {title: 'No song playing'};
+            },
         },
     }
 </script>

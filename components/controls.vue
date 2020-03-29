@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
 export default {
     name: 'controls',
     methods: {
@@ -23,28 +22,19 @@ export default {
     },
     data: () => {
         return {
+            style: {
+                fg: 'blue',
+                bg: 'normal',
+                focus: { bg: 'lightblack' },
+                hover: { bg: 'lightblack' },
+            },
+            border: { type: 'line', fg: 'cyan' },
+            padding: { left: 1, right: 1 }
         }
     },
     computed: {
         playButtonText() {
             return this.$store.state.playing ? 'Pause' : 'Play ';
-        },
-        style() {
-            return {
-                fg: 'blue',
-                bg: 'normal',
-                focus: { bg: 'lightblack' },
-                hover: { bg: 'lightblack' },
-            }
-        },
-        border() {
-            return {
-                type: 'line',
-                fg: 'cyan',
-            }
-        },
-        padding() {
-            return { left: 1, right: 1 }
         }
     },
 }

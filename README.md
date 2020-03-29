@@ -8,9 +8,11 @@ $ npm install parshendi-tui -g
 ```
 
 # Known Bugs
+* you can create a category without tags
 
 # TODOS
 * Shuffle Playlist
-* Refactor
+* Refactor (Local driver)
+* Music Metadata editor for Local
 * Youtube music driver
 * Spotify music driver

@@ -51,12 +51,12 @@
 </template>
 
 <script>
-    import {EventBus} from "../index";
+    import {EventBus} from "../../index";
 
     export default {
         name: 'configModal',
         mounted: function () {
-            this.$refs.libraryPath.setValue(this.$store.state.libraryPath);
+            this.$refs.libraryPath.setValue(this.$store.state.db.get('config.libraryPath').value());
             EventBus.$on('setModal', ({modal, state}) => {
                 if(modal === 'config')
                     this.hidden = state

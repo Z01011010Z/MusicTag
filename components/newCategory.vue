@@ -118,25 +118,25 @@
                 }
             },
             saveCategory() {
-                const shortid = require('shortid');
+                if(this.category.tags.length > 0 ) {
+                    const shortid = require('shortid');
 
-                const category = {
-                    'id': shortid.generate(),
-                    'name': this.$refs.categoryName.value,
-                    'state': this.category.state,
-                    'color': this.colors[this.$refs.categoryColor.selected],
-                    'tags': this.category.tags
-                };
+                    const category = {
+                        'id': shortid.generate(),
+                        'name': this.$refs.categoryName.value,
+                        'state': this.category.state,
+                        'color': this.colors[this.$refs.categoryColor.selected],
+                        'tags': this.category.tags
+                    };
 
-                const low = require('lowdb');
-                const FileSync = require('lowdb/adapters/FileSync');
-                const adapter = new FileSync('db.json');
-                const db = low(adapter);
-                db.get('categories').push(category).write();
+                    this.$store.state.db.get('categories').push(category).write();
 
-                EventBus.$emit('newCategory', category);
-                this.hidden = true;
-                this.reset();
+                    EventBus.$emit('newCategory', category);
+                    this.hidden = true;
+                    this.reset();
+                } else {
+                    EventBus.$emit('message', {msg: 'You must create at least one tag!', isError: true});
+                }
             },
             cancelCreate() {
                 this.hidden = true;

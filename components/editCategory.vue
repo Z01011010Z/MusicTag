@@ -151,12 +151,7 @@
                 this.category.color = newColor;
                 this.category.name = this.$refs.categoryName.value;
 
-                const low = require('lowdb');
-                const FileSync = require('lowdb/adapters/FileSync');
-                const adapter = new FileSync('db.json');
-                const db = low(adapter);
-
-                db.get('categories').find({id: this.category.id}).assign(this.category).write();
+                this.$store.state.db.get('categories').find({id: this.category.id}).assign(this.category).write();
                 EventBus.$emit('updateCategory', {category: this.category, changes: this.changes});
                 EventBus.$emit('setModal', {modal: 'editCategory', state: true});
             },
