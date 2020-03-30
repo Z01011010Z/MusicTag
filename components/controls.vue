@@ -1,6 +1,7 @@
 <template>
-    <layout layout='inline-block' :bottom='0' :right='0' :width="19", :height='3'>
-        <button :style="style" @press='prev' :mouse='true' :height='3' :border='border' content="Prev" />
+    <layout layout='inline-block' :bottom='0' :right='0' :width="33", :height='3'>
+        <button @press='toggleShuffle' :mouse='true' :height='3' :border='border' :style="style" :tags='true' :content="shuffleButtonText" />
+        <button @press='prev' :mouse='true' :height='3' :border='border' :style="style" content="Prev" />
         <button @press='togglePlay' :mouse='true' :height='3' :border='border' :style='style' :content="playButtonText" />
         <button @press='next' :mouse='true' :height='3' :border='border' :style='style' content="Next" />
     </layout>
@@ -10,6 +11,9 @@
 export default {
     name: 'controls',
     methods: {
+        toggleShuffle() {
+            this.$store.dispatch('toggleShuffle');
+        },
         prev() {
             this.$store.dispatch('prev');
         },
@@ -35,7 +39,10 @@ export default {
     computed: {
         playButtonText() {
             return this.$store.state.playing ? 'Pause' : 'Play ';
-        }
+        },
+        shuffleButtonText() {
+            return this.$store.state.shuffle ? 'Shuffle: {green-fg}On{/} ' : 'Shuffle: {red-fg}Off{/}'
+        },
     },
 }
 </script>

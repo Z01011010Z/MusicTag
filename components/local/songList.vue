@@ -11,21 +11,18 @@
             :vi='true'
             :search='true'
             :tags='true'
-            @select='pickedSong'
+            @select='pickSong'
     ></listtable>
 </template>
 
 <script>
-    import {mapActions, mapState} from 'vuex'
-
-
     export default {
         name: 'songList',
         data: function () {
             return {}
         },
         mounted: function () {
-            this.$refs.songList.on('select item', this.selectedSong);
+            this.$refs.songList.on('select item', this.selectSong);
             this.$store.commit('setSelectedSong', 0);
 
             this.$refs.songList.on('mouseover', () => {
@@ -33,21 +30,21 @@
             });
         },
         methods: {
-            selectedSong() {
+            selectSong() {
                 const index = this.$refs.songList.selected - 1;
                 this.$store.commit('setSelectedSong', index);
             },
-            pickedSong() {
-                const index = this.$refs.songList.selected - 1;
-                this.$store.dispatch('playSong', index)
+            pickSong() {
+                const index = this.$refs.songList.selected - 1; // Blessed list starts on 1!
+                this.$store.dispatch('pickSong', index)
             }
         },
         computed: {
             playlist() {
                 const headers = ['Title', 'Artist', 'Album', 'Duration'];
-                const songs = this.$store.state.currentPlaylist.map(({title, artist, album, length}, index) => {
+                const songs = this.$store.state.playlist.map(({id, title, artist, album, length}) => {
                     if (this.$store.state.playing) {
-                        if (index === this.$store.state.currentIndexPlaying) {
+                        if (id === this.$store.state.currentSong.id) {
                             title = this.formatColor(title, 'yellow');
                         }
                     }

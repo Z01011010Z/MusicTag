@@ -7,11 +7,14 @@ ParshendiTui is a music player that takes a different aproach to playlist. Filte
 $ npm install parshendi-tui -g
 ```
 
+### Usage
+```sh
+$ parshendi
+```
+
 # Known Bugs
-* you can create a category without tags
 
 # TODOS
-* Shuffle Playlist
 * Refactor (Local driver)
 * Music Metadata editor for Local
 * Youtube music driver

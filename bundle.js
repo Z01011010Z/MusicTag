@@ -334,10 +334,14 @@ module.exports = require("blessed-vue");
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'controls',
     methods: {
+        toggleShuffle() {
+            this.$store.dispatch('toggleShuffle');
+        },
         prev() {
             this.$store.dispatch('prev');
         },
@@ -363,7 +367,10 @@ module.exports = require("blessed-vue");
     computed: {
         playButtonText() {
             return this.$store.state.playing ? 'Pause' : 'Play ';
-        }
+        },
+        shuffleButtonText() {
+            return this.$store.state.shuffle ? 'Shuffle: {green-fg}On{/} ' : 'Shuffle: {red-fg}Off{/}'
+        },
     },
 });
 
@@ -648,7 +655,7 @@ module.exports = require("blessed-vue");
             this.updateLibrary();
         },
         updateLibrary() {
-            this.$store.commit('checkLibrary');
+            this.$store.commit('checkLocalLibrary');
         },
         closeModal() {
             __WEBPACK_IMPORTED_MODULE_0__index__["EventBus"].$emit('setModal', {modal: 'config', state: true});
@@ -674,8 +681,6 @@ module.exports = require("blessed-vue");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuex__);
 //
 //
 //
@@ -693,9 +698,6 @@ module.exports = require("blessed-vue");
 //
 //
 //
-
-
-
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     name: 'songList',
@@ -703,7 +705,7 @@ module.exports = require("blessed-vue");
         return {}
     },
     mounted: function () {
-        this.$refs.songList.on('select item', this.selectedSong);
+        this.$refs.songList.on('select item', this.selectSong);
         this.$store.commit('setSelectedSong', 0);
 
         this.$refs.songList.on('mouseover', () => {
@@ -711,21 +713,21 @@ module.exports = require("blessed-vue");
         });
     },
     methods: {
-        selectedSong() {
+        selectSong() {
             const index = this.$refs.songList.selected - 1;
             this.$store.commit('setSelectedSong', index);
         },
-        pickedSong() {
-            const index = this.$refs.songList.selected - 1;
-            this.$store.dispatch('playSong', index)
+        pickSong() {
+            const index = this.$refs.songList.selected - 1; // Blessed list starts on 1!
+            this.$store.dispatch('pickSong', index)
         }
     },
     computed: {
         playlist() {
             const headers = ['Title', 'Artist', 'Album', 'Duration'];
-            const songs = this.$store.state.currentPlaylist.map(({title, artist, album, length}, index) => {
+            const songs = this.$store.state.playlist.map(({id, title, artist, album, length}) => {
                 if (this.$store.state.playing) {
-                    if (index === this.$store.state.currentIndexPlaying) {
+                    if (id === this.$store.state.currentSong.id) {
                         title = this.formatColor(title, 'yellow');
                     }
                 }
@@ -1410,14 +1412,29 @@ const state = {
     currentSec: 0,
     currentIndexPlaying: null,
     currentIndexSelected: 0,
+    shuffle: false,
 };
 
 const mutations = {
-    setPlayingSong(state, index) {
+    setPlayingSong(state, index) { // TODO Should this accept a song object?
         state.playing = true;
         state.currentSec = 0;
-        state.currentIndexPlaying = index;
         state.currentSong = state.currentPlaylist[index];
+    },
+    setCurrentIndexPlaying(state, index) {
+        state.currentIndexPlaying = index;
+    },
+    setShuffle(state, value) {
+        state.shuffle = value;
+    },
+    shufflePlaylist(state, index) {
+        const copy = [...state.playlist];
+        const currentSong = copy.splice(index, 1)[0]; // This removes the current song from the playlist and returns it
+        const shuffled = shuffleArray(copy);
+        state.currentPlaylist = [currentSong, ...shuffled];
+    },
+    setCurrentPlaylist(playlist) {
+        state.currentPlaylist = playlist;
     },
     stopPlaying(state) {
         state.playing = false;
@@ -1427,15 +1444,10 @@ const mutations = {
     },
     setSelectedSong(state, index) {
         state.currentIndexSelected = index;
-        if (state.currentPlaylist.length > 0)
-            state.selectedSong = state.currentPlaylist[index];
+        if (state.playlist.length > 0)
+            state.selectedSong = state.playlist[index];
         else
             state.selectedSong = null;
-
-    },
-    setPlaylist(state, songs) {
-        state.playlist = songs;
-        state.currentPlaylist = songs;
     },
     setLibraryPath(state, path) {
         state.db.get('config').assign({'libraryPath': path}).write();
@@ -1443,18 +1455,18 @@ const mutations = {
     filterInclude(state, include) {
         for (const includeIds of Object.values(include)) {
             if (includeIds.length > 0) {
-                state.currentPlaylist = state.currentPlaylist.filter(song => {
-                    return song.tags.some(songTag => includeIds.includes(songTag.id))
-                });
+                state.playlist = state.playlist.filter(song =>
+                    song.tags.some(songTag => includeIds.includes(songTag.id))
+                );
             }
         }
     },
     filterExclude(state, exclude) {
         for (const excludeIds of Object.values(exclude)) {
             if (excludeIds.length > 0) {
-                state.currentPlaylist = state.currentPlaylist.filter(song => {
-                    return !song.tags.some(songTag => excludeIds.includes(songTag.id))
-                });
+                state.playlist = state.playlist.filter(song =>
+                    !song.tags.some(songTag => excludeIds.includes(songTag.id))
+                );
             }
         }
     },
@@ -1462,19 +1474,15 @@ const mutations = {
         state.playlist.find(song => song.id === id).tags.push(tag);
     },
     addTagToDB(state, {tag, id}) {
-        state.db.read();
         state.db.get('songs').find({id}).get('tags').push(tag).write();
     },
-    setModal(state, {modal, visibility}) {
-        state.modals[modal] = visibility;
-    },
-    setEditCategory(state, category) {
+    setEditCategory(state, category) { //TODO move to event
         state.editCategory = category;
     },
-    async checkLibrary(state) {
-        // TODO METODO NADA EFICIENTE
+    async checkLocalLibrary(state) {
+        // TODO MAKE MORE EFFICIENT
         // Add slash if not include
-        const libraryPath = state.db.get('config.libraryPath').value();
+        let libraryPath = state.db.get('config.libraryPath').value();
 
         if (!libraryPath.endsWith('/'))
             libraryPath += '/';
@@ -1483,18 +1491,17 @@ const mutations = {
         if (fs.existsSync(libraryPath))
             songsInLibrary = fs.readdirSync(libraryPath);
 
-        // Borrar canciones que ya no existen
+        // Delete songs from db if not in library
         state.db.get('songs')
-            .remove((song) => {
-                return !songsInLibrary.includes(song.file)
-            }).write();
+            .remove((song) => !songsInLibrary.includes(song.file))
+            .write();
 
-        // Filtrar nuevas canciones
+        // Filter new songs
         const newSongsPaths = songsInLibrary.filter(songPath =>
             !state.db.get('songs').map(song => song.file).value().includes(songPath)
         );
 
-        // Agregar nuevas
+        // Add new songs to db
         let newSongs = [];
         for (const newSongPath of newSongsPaths) {
             const metadata = await mm.parseFile(libraryPath + newSongPath);
@@ -1516,97 +1523,125 @@ const mutations = {
     }
 };
 
-// actions are functions that cause side effects and can involve
-// asynchronous operations.
 const actions = {
-        updateSongsCategory({state}, changes) {
-            state.playlist.forEach(song => {
-                song.tags.forEach((tag, index, tags) => {
-                    if (changes.tagsEdited.includes(tag.id)) {
-                        tag.color = changes.color;
-                        state.db.get('songs').find({id: song.id}).get('tags').find({id: tag.id}).assign({color: changes.color}).write();
-                    }
-                    if (changes.tagsDeleted.includes(tag.id)) {
-                        tags.splice(index, 1);
-                        state.db.get('songs').find({id: song.id}).get('tags').remove({id: tag.id}).write();
-                    }
-                    // TODO add logic for renamed
-                });
+    updateSongsCategory({state}, changes) {
+        state.playlist.forEach(song => {
+            song.tags.forEach((tag, index, tags) => {
+                if (changes.tagsEdited.includes(tag.id)) {
+                    tag.color = changes.color;
+                    state.db.get('songs').find({id: song.id}).get('tags').find({id: tag.id}).assign({color: changes.color}).write();
+                }
+                if (changes.tagsDeleted.includes(tag.id)) {
+                    tags.splice(index, 1);
+                    state.db.get('songs').find({id: song.id}).get('tags').remove({id: tag.id}).write();
+                }
+                // TODO add logic for renamed
             });
-        },
-        addTag({commit, state}, tag) {
-            if (!state.selectedSong.tags.map(tag => tag.id).includes(tag.id)) {
-                const id = state.selectedSong.id;
-
-                // Add tag to playlist,
-                commit('addTagToPlaylist', {tag, id});
-
-                // Save tag to db
-                commit('addTagToDB', {tag, id});
-            }
-        },
-        removeTag({state}, tagId) {
+        });
+    },
+    addTag({commit, state}, tag) {
+        if (!state.selectedSong.tags.map(tag => tag.id).includes(tag.id)) {
             const id = state.selectedSong.id;
 
-            // Remove from playlist
-            let songTags = state.playlist.find(song => song.id === id).tags;
-            songTags = songTags.filter(tag => tagId !== tag.id);
+            // Add tag to playlist,
+            commit('addTagToPlaylist', {tag, id});
 
-            //Remove from selectedSong
-            state.selectedSong.tags = state.selectedSong.tags.filter(tag => tagId !== tag.id);
+            // Save tag to db
+            commit('addTagToDB', {tag, id});
+        }
+    },
+    removeTag({state}, tagId) {
+        const id = state.selectedSong.id;
 
-            // Remove from db
-            state.db.get('songs').find({id}).get('tags').remove({id: tagId}).write();
-        },
-        filterPlaylist({commit, state}, filters) {
-            state.currentPlaylist = [...state.playlist]; //Copy playlist
+        // Remove from playlist
+        let song = state.playlist.find(song => song.id === id);
+        if (song) song.tags = song.tags.filter(tag => tagId !== tag.id);
 
-            // Filter
-            commit('filterInclude', filters.include);
-            commit('filterExclude', filters.exclude);
+        //Remove from selectedSong
+        state.selectedSong.tags = state.selectedSong.tags.filter(tag => tagId !== tag.id);
 
-            // Set selected to first
-            commit('setSelectedSong', 0);
+        // Remove from db
+        state.db.get('songs').find({id}).get('tags').remove({id: tagId}).write();
+    },
+    filterPlaylist({commit, state}, filters) {
+        state.playlist = state.db.get('songs').value();
 
-            // Update current playing
-            if (state.playing) {
-                const index = state.currentPlaylist.findIndex(song => song.id === state.currentSong.id);
-                if (index === -1) { // Not found in current playlist
-                    commit('stopPlaying');
-                } else {
-                    commit('setPlayingSong', index);
-                }
+        // Filter
+        commit('filterInclude', filters.include);
+        commit('filterExclude', filters.exclude);
+
+        // Set selected to first
+        commit('setSelectedSong', 0);
+
+        // Update current playing
+        if (state.playing) {
+            const index = state.playlist.findIndex(song => song.id === state.currentSong.id);
+            if (index === -1)  // Not found in current playlist
+                commit('stopPlaying');
+            else
+                commit('setPlayingSong', index);
+        }
+    },
+    pickSong({commit, state, dispatch}, index) {
+        // index is the playlist index which is always in order
+        if (state.shuffle) {
+            // If shuffle option is active then each time a song is pick a new shuffled playlist is created
+            // The picked song (index) must be the first one in the current playlist
+            commit('shufflePlaylist', index);
+            dispatch('playSong', 0)
+        } else {
+            // If the shuffle option is inactive then index of playlist === index of currentPlaylist
+            dispatch('playSong', index)
+        }
+    },
+    toggleShuffle({commit, state, getters}) {
+        commit('setShuffle', !state.shuffle);
+        if(state.playing) {
+            if(state.shuffle) {
+                // Shuffle the playlist setting the current song to the first one
+                commit('shufflePlaylist', getters.currentSongIndex);
+                commit('setCurrentIndexPlaying', 0);
+            } else {
+                // Set current playlist to playlist and set current index to the corresponding index
+                commit('setCurrentPlaylist', state.playlist);
+                commit('setPlayingSong', getters.currentSongIndex);
+                commit('setCurrentIndexPlaying', getters.currentSongIndex);
             }
-        },
-        playSong({commit, state}, index) {
-            commit('setPlayingSong', index);
-            const libraryPath = state.db.get('config.libraryPath').value();
-            player.play(libraryPath + state.currentSong.file);
-        },
-        togglePlay({state}) {
-            if (state.currentSong.file) {
-                state.playing = !state.playing;
-                player.pause();
-            }
-        },
-        prev({state, dispatch}) {
-            if (state.playing) {
-                if (state.currentSec > 10)
-                    player.seek(0);
-                else if (state.currentIndexPlaying !== 0)
-                    dispatch('playSong', state.currentIndexPlaying - 1);
-            }
-        },
-        next({state, dispatch}) {
-            if (state.currentIndexPlaying < state.currentPlaylist.length - 1) {
-                dispatch('playSong', state.currentIndexPlaying + 1);
-            }
-        },
+        }
+    },
+    playSong({commit, state}, index) {
+        // index of the current playlist
+        commit('setPlayingSong', index);
+        commit('setCurrentIndexPlaying', index);
+        const libraryPath = state.db.get('config.libraryPath').value();
+        player.play(libraryPath + state.currentSong.file);
+    },
+    togglePlay({state}) {
+        if (state.currentSong.file) {
+            state.playing = !state.playing;
+            player.pause();
+        }
+    },
+    prev({state, dispatch}) {
+        if (state.playing) {
+            if (state.currentSec > 10)
+                player.seek(0);
+            else if (state.currentIndexPlaying !== 0)
+                dispatch('playSong', state.currentIndexPlaying - 1);
+        }
+    },
+    next({state, dispatch}) {
+        if (state.currentIndexPlaying < state.currentPlaylist.length - 1) {
+            dispatch('playSong', state.currentIndexPlaying + 1);
+        }
+    },
+};
+
+const getters = {
+    currentSongIndex: state => {
+        return state.playlist.findIndex(song => song.id === state.currentSong.id);
     }
-;
-
-// getters are functions
-const getters = {};
+};
 
 const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     state,
@@ -1615,7 +1650,12 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex___default.a.Store({
     mutations
 });
 
-store.commit('checkLibrary');
+const shuffleArray = array =>
+    [...Array(array.length)]
+        .map((...args) => Math.floor(Math.random() * (args[1] + 1)))
+        .reduce((a, rv, i) => ([a[i], a[rv]] = [a[rv], a[i]]) && a, array);
+
+store.commit('checkLocalLibrary');
 
 // Song Player Event Listener
 player.on('frame', ([cFrame, rFrame, cTime, rTime]) => {
@@ -1631,8 +1671,6 @@ player.on('end', () => {
         store.dispatch('next');
 });
 
-// A Vuex instance is created by combining the state, mutations, actions,
-// and getters.
 /* harmony default export */ __webpack_exports__["a"] = (store);
 
 
@@ -2167,7 +2205,7 @@ var render = function() {
           label: "Currently Playing",
           border: _vm.border,
           bottom: 0,
-          width: "100%-19",
+          width: "100%-33",
           height: 3,
           content: _vm.currentSong.title
         }
@@ -2285,12 +2323,24 @@ var render = function() {
         layout: "inline-block",
         bottom: 0,
         right: 0,
-        width: 19,
+        width: 33,
         ",": "",
         height: 3
       }
     },
     [
+      _c("button", {
+        style: _vm.style,
+        attrs: {
+          mouse: true,
+          height: 3,
+          border: _vm.border,
+          tags: true,
+          content: _vm.shuffleButtonText
+        },
+        on: { press: _vm.toggleShuffle }
+      }),
+      _vm._v(" "),
       _c("button", {
         style: _vm.style,
         attrs: { mouse: true, height: 3, border: _vm.border, content: "Prev" },
@@ -2344,7 +2394,7 @@ var render = function() {
       search: true,
       tags: true
     },
-    on: { select: _vm.pickedSong }
+    on: { select: _vm.pickSong }
   })
 }
 var staticRenderFns = []

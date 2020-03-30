@@ -68,7 +68,7 @@
                 this.updateLibrary();
             },
             updateLibrary() {
-                this.$store.commit('checkLibrary');
+                this.$store.commit('checkLocalLibrary');
             },
             closeModal() {
                 EventBus.$emit('setModal', {modal: 'config', state: true});

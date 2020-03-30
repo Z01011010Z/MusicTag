@@ -3,7 +3,7 @@
         <progressbar :style='barStyle' :border='border' :height='3' width='100%' :filled='progress'>
             <text style="fg: white;" :top='-1' left='center' :height='1' :content="`${currentTime} / ${maxTime}`"/>
         </progressbar>
-        <text label='Currently Playing' :border='border' :style='currentlyPlayingStyle' :bottom='0' width='100%-19'
+        <text label='Currently Playing' :border='border' :style='currentlyPlayingStyle' :bottom='0' width='100%-33'
               :height='3' :content="currentSong.title"/>
         <controls></controls>
     </box>
